@@ -45,7 +45,6 @@
     // Los navegadores solo permiten bloquear la orientación en pantalla completa, y lo rechazan sin avisar si no se cumple
     // (en ese caso queda el aviso de "gira el teléfono" como respaldo).
     document.querySelector('[data-modo="movil"]').addEventListener('click', async () => {
-      try { await document.documentElement.requestFullscreen(); } catch (e) {}
       try { await screen.orientation.lock('landscape'); } catch (e) {}
     });
   </script>
