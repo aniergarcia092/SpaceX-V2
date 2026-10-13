@@ -18,8 +18,13 @@
     #btn-rover { left: 12px; bottom: 120px; }
     #btn-atacar { right: 12px; bottom: 120px; }
     #btn-reiniciar { left: 50%; top: 40%; transform: translateX(-50%); }
+    /* Móvil: el juego es vertical. Si el teléfono está en horizontal se tapa con un aviso para girarlo. */
+    #girar { position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center;
+      justify-content: center; gap: 10px; background: #120a0b; text-align: center; font-size: 20px; padding: 20px; }
+    #girar span { font-size: 56px; }
+    @media (orientation: landscape) and (max-height: 600px) { body.movil #girar { display: flex; } }
   </style>
-  <script type="module" crossorigin src="/SpaceX-V2/assets/index-xDUL-y-b.js"></script>
+  <script type="module" crossorigin src="/SpaceX-V2/assets/index-1cfjr-2N.js"></script>
 </head>
 <body>
   <div id="menu-inicio">
@@ -33,5 +38,12 @@
   <button id="btn-atacar" class="oculto">⚔️</button>
   <button id="btn-reiniciar" class="oculto">🔄</button>
 
+  <div id="girar"><span>📱</span>Gira el teléfono a vertical</div>
+  <script>
+    // Intenta bloquear la pantalla en vertical al elegir Móvil (muchos navegadores solo lo permiten en pantalla completa y lo rechazan sin avisar).
+    document.querySelector('[data-modo="movil"]').addEventListener('click', () => {
+      try { screen.orientation.lock('portrait').catch(() => {}); } catch (e) {}
+    });
+  </script>
 </body>
 </html>
