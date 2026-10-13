@@ -1,117 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Pixi Project</title>
   <style>
-    html,
-    body {
-      margin: 0;
-      height: 100%;
-      background: #120a0b;
-      overflow: hidden;
-      font-family: system-ui, sans-serif;
-      color: #eee;
-    }
-
-    #app {
-      position: fixed;
-      inset: 0;
-    }
-
-    #menu-inicio {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      background: #120a0b;
-    }
-
-    #menu-inicio button {
-      font-size: 20px;
-      padding: 14px 32px;
-      border: 0;
-      border-radius: 10px;
-      background: #ff9a2e;
-      color: #120a0b;
-      cursor: pointer;
-    }
-
-    .oculto {
-      display: none !important;
-    }
-
-    #btn-rover,
-    #btn-atacar,
-    #btn-reiniciar {
-      position: fixed;
-      z-index: 20;
-      display: none;
-      font-size: 18px;
-      padding: 12px 16px;
-      border: 0;
-      border-radius: 12px;
-      background: rgba(255, 154, 46, .9);
-      color: #120a0b;
-    }
-
-    body.movil #btn-rover,
-    body.movil #btn-atacar,
-    body.movil #btn-reiniciar {
-      display: block;
-    }
-
-    #btn-rover {
-      left: 12px;
-      bottom: 120px;
-    }
-
-    #btn-atacar {
-      right: 12px;
-      bottom: 120px;
-    }
-
-    #btn-reiniciar {
-      left: 50%;
-      top: 40%;
-      transform: translateX(-50%);
-    }
-
-    /* Móvil: el juego es vertical. Si el teléfono está en horizontal se tapa con un aviso para girarlo. */
-    #girar {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #120a0b;
-      text-align: center;
-      font-size: 20px;
-      padding: 20px;
-    }
-
-    #girar span {
-      font-size: 56px;
-    }
-
-    @media (orientation: landscape) and (max-height: 600px) {
-      body.movil #girar {
-        display: flex;
-      }
-    }
+    html, body { margin: 0; height: 100%; background: #120a0b; overflow: hidden; font-family: system-ui, sans-serif; color: #eee; }
+    #app { position: fixed; inset: 0; }
+    #menu-inicio { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px; background: #120a0b; }
+    #menu-inicio button { font-size: 20px; padding: 14px 32px; border: 0; border-radius: 10px;
+      background: #ff9a2e; color: #120a0b; cursor: pointer; }
+    .oculto { display: none !important; }
+    #btn-rover, #btn-atacar, #btn-reiniciar { position: fixed; z-index: 20; display: none; font-size: 18px;
+      padding: 12px 16px; border: 0; border-radius: 12px; background: rgba(255,154,46,.9); color: #120a0b; }
+    body.movil #btn-rover, body.movil #btn-atacar, body.movil #btn-reiniciar { display: block; }
+    /* Móvil en horizontal: hay poca altura, así que los botones bajan para no tapar el joystick ni el botón del mapa */
+    #btn-rover { left: 160px; bottom: 24px; }
+    #btn-atacar { right: 12px; bottom: 24px; }
+    #btn-reiniciar { left: 50%; top: 40%; transform: translateX(-50%); }
+    /* Móvil: el juego es horizontal. Si el teléfono está en vertical se tapa con un aviso para girarlo. */
+    #girar { position: fixed; inset: 0; z-index: 9999; display: none; flex-direction: column; align-items: center;
+      justify-content: center; gap: 10px; background: #120a0b; text-align: center; font-size: 20px; padding: 20px; }
+    #girar span { font-size: 56px; display: inline-block; transform: rotate(90deg); }
+    @media (orientation: portrait) { body.movil #girar { display: flex; } }
   </style>
-  <script type="module" crossorigin src="/SpaceX-V2/assets/index-1cfjr-2N.js"></script>
+  <script type="module" crossorigin src="/SpaceX-V2/assets/index-BJp4-isw.js"></script>
 </head>
-
 <body>
   <div id="menu-inicio">
     <h1>Elige tu modo</h1>
@@ -124,13 +39,15 @@
   <button id="btn-atacar" class="oculto">⚔️</button>
   <button id="btn-reiniciar" class="oculto">🔄</button>
 
-  <div id="girar"><span>📱</span>Gira el teléfono a vertical</div>
+  <div id="girar"><span>📱</span>Gira el teléfono a horizontal</div>
   <script>
-    // Intenta bloquear la pantalla en vertical al elegir Móvil (muchos navegadores solo lo permiten en pantalla completa y lo rechazan sin avisar).
-    document.querySelector('[data-modo="movil"]').addEventListener('click', () => {
-      try { screen.orientation.lock('landscape').catch(() => { }); } catch (e) { }
+    // Al elegir Móvil: pantalla completa y bloqueo en horizontal.
+    // Los navegadores solo permiten bloquear la orientación en pantalla completa, y lo rechazan sin avisar si no se cumple
+    // (en ese caso queda el aviso de "gira el teléfono" como respaldo).
+    document.querySelector('[data-modo="movil"]').addEventListener('click', async () => {
+      try { await document.documentElement.requestFullscreen(); } catch (e) {}
+      try { await screen.orientation.lock('landscape'); } catch (e) {}
     });
   </script>
 </body>
-
 </html>
