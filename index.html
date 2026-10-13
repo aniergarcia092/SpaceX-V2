@@ -25,6 +25,39 @@
     #girar span { font-size: 56px; display: inline-block; transform: rotate(90deg); }
     @media (orientation: portrait) { body.movil #girar { display: flex; } }
   </style>
+  <script>
+    // DIAGNÓSTICO TEMPORAL: muestra en pantalla los errores de carga y dice si main.js arrancó. Bórralo cuando todo funcione.
+    (function () {
+      var caja = null, estado = null, t0 = Date.now();
+      function ver(t) {
+        if (!caja) {
+          caja = document.createElement('pre');
+          caja.style.cssText = 'position:fixed;left:0;right:0;top:0;max-height:45%;overflow:auto;margin:0;padding:8px;z-index:99999;background:#7a0f16;color:#fff;font:11px monospace;white-space:pre-wrap;';
+          (document.body || document.documentElement).appendChild(caja);
+        }
+        caja.textContent += t + '\n';
+      }
+      window.addEventListener('error', function (e) {
+        var t = e.target;
+        if (t && t.tagName === 'SCRIPT') ver('No se pudo cargar: ' + (t.src || 'script'));
+        else ver('Error: ' + e.message + (e.filename ? ' (' + e.filename.split('/').pop() + ':' + e.lineno + ')' : ''));
+      }, true);
+      window.addEventListener('unhandledrejection', function (e) { ver('Promesa rechazada: ' + ((e.reason && e.reason.message) || e.reason)); });
+      document.addEventListener('DOMContentLoaded', function () {
+        estado = document.createElement('div');
+        estado.style.cssText = 'position:fixed;left:0;right:0;bottom:10px;text-align:center;font:13px monospace;color:#ffc83a;z-index:60;pointer-events:none;';
+        estado.textContent = 'Cargando el juego…';
+        document.body.appendChild(estado);
+        var iv = setInterval(function () {
+          var b = document.querySelector('#menu-inicio button'), seg = Math.round((Date.now() - t0) / 1000);
+          if (!b) { estado.remove(); clearInterval(iv); return; }                    // el menú ya no está: el juego arrancó
+          if (b.onclick) { estado.textContent = 'Listo ✔ (' + seg + ' s)'; estado.style.color = '#7dff9e'; clearInterval(iv); return; }
+          estado.textContent = 'Cargando el juego… ' + seg + ' s';
+          if (Date.now() - t0 > 20000) { ver('main.js no arrancó tras 20 s.\nNavegador: ' + navigator.userAgent); clearInterval(iv); }
+        }, 300);
+      });
+    })();
+  </script>
   <script type="module" crossorigin src="/SpaceX-V2/assets/index-BJp4-isw.js"></script>
 </head>
 <body>
@@ -45,6 +78,7 @@
     // Los navegadores solo permiten bloquear la orientación en pantalla completa, y lo rechazan sin avisar si no se cumple
     // (en ese caso queda el aviso de "gira el teléfono" como respaldo).
     document.querySelector('[data-modo="movil"]').addEventListener('click', async () => {
+      try { await document.documentElement.requestFullscreen(); } catch (e) {}
       try { await screen.orientation.lock('landscape'); } catch (e) {}
     });
   </script>
