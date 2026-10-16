@@ -147,8 +147,70 @@
     }
     @media (prefers-reduced-motion:reduce) { #menu-inicio button { transition:none; } }
 
+
+    /* ---------- Multijugador ---------- */
+    #menu-inicio .opciones { max-width:640px; }
+    #menu-inicio button.multi { flex:1 1 100%; max-width:614px; border-color:rgba(122,224,255,.38);
+      background:linear-gradient(135deg, rgba(95,208,255,.14), rgba(25,22,43,.72) 58%); }
+    #menu-inicio button.multi::after { background:linear-gradient(90deg, transparent, #5fd0ff, transparent); }
+    #menu-inicio button.multi:hover, #menu-inicio button.multi:focus-visible { border-color:rgba(150,230,255,.9);
+      background:linear-gradient(135deg, rgba(95,208,255,.26), rgba(39,27,49,.88) 65%); box-shadow:inset 0 1px 0 rgba(255,255,255,.13), 0 18px 42px rgba(0,0,0,.28), 0 0 24px rgba(95,208,255,.14); }
+    #menu-inicio button.multi .ic { border-color:rgba(122,224,255,.3); background:rgba(95,208,255,.1); }
+    #menu-inicio button .tag { margin-left:auto; padding:3px 9px; border-radius:99px; font-size:10px; font-weight:800; letter-spacing:.12em; color:#0b1a22; background:#5fd0ff; }
+    #lobby { position:fixed; inset:0; z-index:60; display:none; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;
+      background:rgba(6,8,18,.62); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); font-family:inherit; color:#fff8f0; user-select:none; }
+    #lobby.abierto { display:flex; animation:lobbyIn .22s ease; }
+    @keyframes lobbyIn { from { opacity:0; } to { opacity:1; } }
+    #lobby .caja { position:relative; width:min(460px, 100%); max-height:calc(100vh - 32px); overflow-y:auto; box-sizing:border-box; padding:22px 22px 18px;
+      border:1px solid rgba(150,230,255,.4); border-radius:18px; text-shadow:none;
+      background:linear-gradient(160deg, rgba(95,208,255,.12), rgba(25,22,43,.94) 48%), rgba(14,12,26,.96);
+      box-shadow:0 24px 70px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1); }
+    #lobby h2 { margin:0 0 2px; font-size:19px; letter-spacing:.2em; color:#bff0ff; }
+    #lobby .sub { margin:0 0 14px; font-size:12px; color:rgba(255,226,208,.7); letter-spacing:.03em; }
+    #lobby .preview { display:none; margin:0 0 12px; padding:7px 10px; border-radius:9px; font-size:11px; letter-spacing:.04em; color:#ffd9a0; background:rgba(255,154,46,.12); border:1px dashed rgba(255,180,109,.5); }
+    #lobby.demo .preview { display:block; }
+    #lobby label { display:block; margin:0 0 5px; font-size:10px; font-weight:800; letter-spacing:.2em; color:rgba(255,226,208,.65); }
+    #lobby input { width:100%; box-sizing:border-box; padding:11px 13px; border-radius:11px; border:1px solid rgba(255,206,166,.3); outline:none;
+      background:rgba(8,10,22,.7); color:#fff8f0; font:600 15px inherit; font-family:inherit; user-select:text; transition:border-color .15s, box-shadow .15s; }
+    #lobby input:focus { border-color:#5fd0ff; box-shadow:0 0 0 3px rgba(95,208,255,.18); }
+    #lobby input.cod { text-align:center; font:800 20px ui-monospace, Menlo, Consolas, monospace; letter-spacing:.32em; text-transform:uppercase; padding-left:.32em; }
+    #lobby .fila { display:flex; gap:10px; margin-top:12px; align-items:stretch; }
+    #lobby .fila > * { flex:1 1 0; min-width:0; }
+    #lobby .sep { display:flex; align-items:center; gap:10px; margin:14px 0 2px; font-size:10px; letter-spacing:.24em; color:rgba(255,226,208,.45); }
+    #lobby .sep::before, #lobby .sep::after { content:""; flex:1; height:1px; background:rgba(255,206,166,.2); }
+    #lobby button { flex:none; max-width:none; display:block; margin:0; padding:12px 14px; text-align:center; font:800 13px inherit; font-family:inherit; letter-spacing:.12em; cursor:pointer; color:#fff8f0;
+      border:1px solid rgba(255,206,166,.34); border-radius:12px; background:linear-gradient(135deg, rgba(255,183,126,.16), rgba(25,22,43,.7)); clip-path:none; backdrop-filter:none;
+      transition:transform .15s, border-color .15s, background .15s, opacity .15s; }
+    #lobby button::after { display:none; }
+    #lobby button:hover:not(:disabled), #lobby button:focus-visible { outline:none; transform:translateY(-2px); border-color:rgba(255,205,153,.85); background:linear-gradient(135deg, rgba(255,183,126,.3), rgba(39,27,49,.9)); box-shadow:none; }
+    #lobby button:disabled { opacity:.4; cursor:default; }
+    #lobby button.pri { color:#211323; border-color:rgba(255,213,171,.7); background:linear-gradient(135deg, #ffbd7d, #ff855e); }
+    #lobby button.pri:hover:not(:disabled) { background:linear-gradient(135deg, #ffd1a0, #ff9a76); }
+    #lobby button.cian { color:#06202b; border-color:rgba(160,236,255,.8); background:linear-gradient(135deg, #8fe8ff, #4fb8ee); }
+    #lobby button.cian:hover:not(:disabled) { background:linear-gradient(135deg, #b4f0ff, #6cc8f6); }
+    #lobby button.txt { padding:8px; font-size:11px; border-color:transparent; background:none; color:rgba(255,226,208,.7); }
+    #lobby .vista { display:none; }
+    #lobby[data-vista="inicio"] .v-inicio, #lobby[data-vista="sala"] .v-sala { display:block; }
+    #lobby .codigo { display:flex; align-items:center; justify-content:center; gap:12px; margin:2px 0 14px; padding:12px; border-radius:13px; cursor:pointer;
+      border:1px dashed rgba(150,230,255,.55); background:rgba(95,208,255,.07); transition:background .15s; }
+    #lobby .codigo:hover { background:rgba(95,208,255,.15); }
+    #lobby .codigo b { font:800 30px ui-monospace, Menlo, Consolas, monospace; letter-spacing:.3em; padding-left:.3em; color:#bff0ff; }
+    #lobby .codigo small { font-size:10px; letter-spacing:.14em; color:rgba(255,226,208,.65); }
+    #lobby .slots { display:flex; flex-direction:column; gap:8px; margin-bottom:6px; }
+    #lobby .slot { display:flex; align-items:center; gap:12px; padding:10px 13px; border-radius:12px; border:1px solid rgba(255,206,166,.22); background:rgba(255,255,255,.04); font-size:14px; }
+    #lobby .slot .pt { flex:none; width:30px; height:30px; border-radius:50%; display:grid; place-items:center; font-size:15px; background:var(--c); box-shadow:0 0 14px var(--c); color:#13111c; font-weight:900; }
+    #lobby .slot .nm { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:700; }
+    #lobby .slot .rol { font-size:10px; letter-spacing:.14em; color:rgba(255,226,208,.6); }
+    #lobby .slot.vacio { border-style:dashed; color:rgba(255,226,208,.4); }
+    #lobby .slot.vacio .pt { background:none; box-shadow:none; border:2px dashed rgba(255,206,166,.3); color:transparent; }
+    #lobby .slot.vacio .nm { font-weight:500; }
+    #lobby .slot.vacio .nm::after { content:""; }
+    #lobby .estado-l { min-height:16px; margin:10px 0 0; font-size:12px; text-align:center; color:#bff0ff; letter-spacing:.02em; }
+    #lobby .estado-l.error { color:#ff9a8a; }
+    #lobby .cerrar { position:absolute; right:12px; top:12px; width:32px; padding:0 !important; height:32px; border-radius:50% !important; font-size:15px !important; }
+    @media (max-height:520px) { #lobby .caja { padding:14px 16px 12px; } #lobby .sub { margin-bottom:8px; } #lobby .fila { margin-top:8px; } #lobby .codigo b { font-size:24px; } }
   </style>
-  <script type="module" crossorigin src="/SpaceX-V2/assets/index-Bk2Zd1aS.js"></script>
+  <script type="module" crossorigin src="/SpaceX-V2/assets/index-CJUOrdjr.js"></script>
 </head>
 <body>
   <div id="menu-inicio">
@@ -178,8 +240,40 @@
       <div class="opciones">
         <button data-modo="pc"><span class="ic">🖥️</span><span><b>PC</b><small>Teclado y ratón</small></span></button>
         <button data-modo="movil"><span class="ic">📱</span><span><b>MÓVIL</b><small>Pantalla táctil · en horizontal</small></span></button>
+        <button class="multi" data-modo="multi"><span class="ic">👥</span><span><b>MULTIJUGADOR</b><small>Juega con tus amigos · hasta 3 jugadores</small></span><span class="tag">NUEVO</span></button>
       </div>
       <p class="estado"><i></i><span class="txt">Cargando el juego…</span></p>
+    </div>
+  </div>
+
+
+  <div id="lobby" data-vista="inicio" role="dialog" aria-modal="true" aria-label="Multijugador">
+    <div class="caja">
+      <button class="cerrar" id="lb-x" title="Cerrar" aria-label="Cerrar">✕</button>
+      <h2>MULTIJUGADOR</h2>
+      <p class="sub">Construyan juntos en el mismo mapa · hasta 3 jugadores</p>
+      <p class="preview">VISTA PREVIA · la conexión real todavía no está activada, solo se ve cómo será el menú.</p>
+
+      <div class="vista v-inicio">
+        <label for="lb-nombre">TU NOMBRE</label>
+        <input id="lb-nombre" maxlength="14" placeholder="Comandante" autocomplete="off" spellcheck="false">
+        <div class="fila"><button class="pri" id="lb-crear">➕ CREAR SALA</button></div>
+        <div class="sep">O UNIRSE A UNA</div>
+        <div class="fila">
+          <input id="lb-codigo" class="cod" maxlength="5" placeholder="CÓDIGO" autocomplete="off" spellcheck="false" aria-label="Código de la sala">
+          <button class="cian" id="lb-unirse">UNIRSE</button>
+        </div>
+      </div>
+
+      <div class="vista v-sala">
+        <label>CÓDIGO DE LA SALA · TOCA PARA COPIAR</label>
+        <div class="codigo" id="lb-copiar" title="Copiar código"><b id="lb-cod">-----</b><small id="lb-copiado">📋</small></div>
+        <label>JUGADORES <span id="lb-cuenta">1/3</span></label>
+        <div class="slots" id="lb-slots"></div>
+        <div class="fila"><button class="pri" id="lb-iniciar">▶ INICIAR PARTIDA</button></div>
+        <div class="fila"><button class="txt" id="lb-salir">⬅ SALIR DE LA SALA</button></div>
+      </div>
+      <p class="estado-l" id="lb-estado"></p>
     </div>
   </div>
 
@@ -189,6 +283,65 @@
   <button id="btn-reiniciar" class="oculto">🔄</button>
 
   <div id="girar"><span>📱</span>Gira el teléfono a horizontal</div>
+  <script>
+    // Multijugador (menú): el botón abre la sala. Va ANTES de los otros scripts para que, mientras la conexión real no esté enganchada,
+    // pulsar "Multijugador" no arranque una partida en solitario. La red se engancha rellenando window.ColoniaLobby.onCrear / onUnirse / onIniciar / onSalir
+    // y llamando a mostrarSala(codigo, jugadores, soyHost) · setJugadores(lista) · setEstado(texto, esError) · cerrar().
+    (function () {
+      var $ = function (s) { return document.querySelector(s); };
+      var lobby = $('#lobby'), btn = $('[data-modo="multi"]'), estado = $('#lb-estado'), nombre = $('#lb-nombre'), codigo = $('#lb-codigo');
+      var COLORES = ['#ff9a2e', '#5fd0ff', '#5dff8a'], ABC = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      var API = window.ColoniaLobby = { max: 3, onCrear: null, onUnirse: null, onIniciar: null, onSalir: null, codigo: '', soyHost: false, jugadores: [] };
+      var demo = function () { return !API.onCrear; };
+      function guardar(v) { try { localStorage.setItem('colonia_nombre', v); } catch (e) {} }
+      function leer() { try { return localStorage.getItem('colonia_nombre') || ''; } catch (e) { return ''; } }
+      function nom() { var n = nombre.value.trim().slice(0, 14) || 'Comandante'; guardar(n); return n; }
+      function msg(t, err) { estado.textContent = t || ''; estado.className = 'estado-l' + (err ? ' error' : ''); }
+      function vista(v) { lobby.dataset.vista = v; }
+      function pintar() {
+        var js = API.jugadores, h = '';
+        for (var i = 0; i < API.max; i++) {
+          var j = js[i];
+          h += j ? '<div class="slot" style="--c:' + COLORES[i] + '"><span class="pt">' + (i + 1) + '</span><span class="nm"></span><span class="rol">' + (i === 0 ? 'ANFITRIÓN' : (j.yo ? 'TÚ' : 'AMIGO')) + (i === 0 && j.yo ? ' · TÚ' : '') + '</span></div>'
+                   : '<div class="slot vacio"><span class="pt">·</span><span class="nm">Esperando amigo…</span></div>';
+        }
+        $('#lb-slots').innerHTML = h;
+        var nms = lobby.querySelectorAll('.slot:not(.vacio) .nm'); js.forEach(function (j, i) { if (nms[i]) nms[i].textContent = j.nombre; });
+        $('#lb-cuenta').textContent = js.length + '/' + API.max;
+        var b = $('#lb-iniciar'); b.disabled = !API.soyHost || js.length < 2;
+        b.textContent = !API.soyHost ? '⏳ ESPERANDO AL ANFITRIÓN' : js.length < 2 ? '▶ NECESITAS A ALGÚN AMIGO' : '▶ INICIAR PARTIDA';
+      }
+      API.mostrarSala = function (cod, jugadores, host) { API.codigo = cod; API.soyHost = !!host; API.jugadores = jugadores; $('#lb-cod').textContent = cod; vista('sala'); pintar(); msg(''); };
+      API.setJugadores = function (jugadores) { API.jugadores = jugadores; pintar(); };
+      API.setEstado = msg;
+      API.cerrar = function () { lobby.classList.remove('abierto'); };
+      API.volver = function (texto) { API.codigo = ''; API.jugadores = []; vista('inicio'); msg(texto, true); };   // la sala se cerró: vuelve al inicio con un aviso
+      function abrir() { lobby.classList.toggle('demo', demo()); lobby.classList.add('abierto'); vista(API.codigo ? 'sala' : 'inicio'); msg(''); if (!API.codigo) setTimeout(function () { nombre.focus(); }, 30); }
+      nombre.value = leer();
+      btn.addEventListener('click', function (e) { e.stopImmediatePropagation(); e.preventDefault(); abrir(); });
+      $('#lb-x').addEventListener('click', API.cerrar);
+      lobby.addEventListener('mousedown', function (e) { if (e.target === lobby) API.cerrar(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && lobby.classList.contains('abierto')) API.cerrar(); });
+      codigo.addEventListener('input', function () { codigo.value = codigo.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
+      codigo.addEventListener('keydown', function (e) { if (e.key === 'Enter') $('#lb-unirse').click(); });
+      $('#lb-crear').addEventListener('click', function () {
+        if (!demo()) { msg('Creando sala…'); API.onCrear(nom()); return; }
+        var c = ''; for (var i = 0; i < 5; i++) c += ABC[Math.floor(Math.random() * ABC.length)];
+        API.mostrarSala(c, [{ nombre: nom(), yo: true }], true);
+      });
+      $('#lb-unirse').addEventListener('click', function () {
+        if (codigo.value.length < 5) { msg('Escribe el código de 5 letras que te pasó tu amigo.', true); codigo.focus(); return; }
+        if (!demo()) { msg('Conectando…'); API.onUnirse(nom(), codigo.value); return; }
+        API.mostrarSala(codigo.value, [{ nombre: 'Amigo' }, { nombre: nom(), yo: true }], false);
+      });
+      $('#lb-iniciar').addEventListener('click', function () { if (!demo() && API.onIniciar) API.onIniciar(); else msg('En la vista previa no arranca la partida.'); });
+      $('#lb-salir').addEventListener('click', function () { if (API.onSalir) API.onSalir(); API.codigo = ''; API.jugadores = []; vista('inicio'); msg(''); });
+      $('#lb-copiar').addEventListener('click', function () {
+        var ok = function () { var s = $('#lb-copiado'); s.textContent = '✔ COPIADO'; setTimeout(function () { s.textContent = '📋'; }, 1400); };
+        try { navigator.clipboard.writeText(API.codigo).then(ok, function () {}); } catch (e) {}
+      });
+    })();
+  </script>
   <script>
     // Al elegir Móvil: pantalla completa y bloqueo en horizontal.
     // Los navegadores solo permiten bloquear la orientación en pantalla completa, y lo rechazan sin avisar si no se cumple
