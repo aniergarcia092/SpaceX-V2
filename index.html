@@ -216,7 +216,7 @@
     #lobby .cerrar { position:absolute; right:12px; top:12px; width:32px; padding:0 !important; height:32px; border-radius:50% !important; font-size:15px !important; }
     @media (max-height:520px) { #lobby .caja { padding:14px 16px 12px; } #lobby .sub { margin-bottom:8px; } #lobby .fila { margin-top:8px; } #lobby .codigo b { font-size:24px; } }
   </style>
-  <script type="module" crossorigin src="/SpaceX-V2/assets/index-GC3oMTlm.js"></script>
+  <script type="module" crossorigin src="/SpaceX-V2/assets/index-DupEO7Kv.js"></script>
 </head>
 <body>
   <div id="menu-inicio">
@@ -285,6 +285,10 @@
         <div class="opts" id="lb-tam">
           <button data-v="normal">Normal</button><button data-v="grande">Grande</button><button data-v="muy">Muy grande</button>
         </div>
+        <label>CAÑONES (RELIEVE)</label>
+        <div class="opts" id="lb-can">
+          <button data-v="sin">Sin cañones</button><button data-v="pocos">Pocos</button><button data-v="normales">Normales</button><button data-v="muchos">Muchos</button>
+        </div>
         <div class="fila"><button class="pri" id="lb-iniciar">▶ INICIAR PARTIDA</button></div>
         <div class="fila"><button class="txt" id="lb-salir">⬅ SALIR DE LA SALA</button></div>
       </div>
@@ -329,16 +333,16 @@
 
       // elección de mapa y tamaño: la hace el anfitrión (API.cfg); los demás lo ven en solo lectura
       var DESC = { aleatorio: 'Un mapa nuevo cada partida.', valle: 'Terreno abierto con pocos cañones: ideal para tanques.', canon: 'Cañones profundos y pasos estrechos.', crateres: 'Cráteres por todas partes: mucha roca y mineral.', glaciar: 'Mucho hielo: agua abundante.' };
-      API.cfg = { mapa: 'aleatorio', tam: 'normal' };
+      API.cfg = { mapa: 'aleatorio', tam: 'normal', can: 'normales' };
       function pintarCfg() {
-        [['#lb-mapas', 'mapa'], ['#lb-tam', 'tam']].forEach(function (p) {
+        [['#lb-mapas', 'mapa'], ['#lb-tam', 'tam'], ['#lb-can', 'can']].forEach(function (p) {
           var box = $(p[0]); box.classList.toggle('lock', !API.soyHost);
           Array.prototype.forEach.call(box.children, function (b) { b.classList.toggle('sel', b.dataset.v === API.cfg[p[1]]); });
         });
         $('#lb-descmapa').textContent = DESC[API.cfg.mapa] || '';
       }
-      API.setCfg = function (c) { API.cfg = { mapa: c.mapa || 'aleatorio', tam: c.tam || 'normal' }; pintarCfg(); };
-      [['#lb-mapas', 'mapa'], ['#lb-tam', 'tam']].forEach(function (p) {
+      API.setCfg = function (c) { API.cfg = { mapa: c.mapa || 'aleatorio', tam: c.tam || 'normal', can: c.can || 'normales' }; pintarCfg(); };
+      [['#lb-mapas', 'mapa'], ['#lb-tam', 'tam'], ['#lb-can', 'can']].forEach(function (p) {
         $(p[0]).addEventListener('click', function (e) {
           var b = e.target.closest('button'); if (!b || !API.soyHost) return;
           API.cfg[p[1]] = b.dataset.v; pintarCfg(); if (API.onCfg) API.onCfg(API.cfg);
